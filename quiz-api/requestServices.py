@@ -68,7 +68,8 @@ def delete_question(position):
     dbService.connection()
 
     dbService.executeTransactionQuery(
-        "DELETE FROM Question WHERE position = " + position)
+        "DELETE FROM Question WHERE position = " + str(position))
+
     dbService.executeTransactionQuery(
         "UPDATE Question SET position = position - 1 WHERE position >= "+str(position))
 
@@ -109,4 +110,29 @@ def put_question(position, json_obj):
     dbService.executeTransactionQuery(
         "UPDATE Question SET title = \""+question.title+"\", text = \""+question.text+"\", image = \""+question.image+"\", position="+str(question.position)+" WHERE id = "+str(id))
 
+    # update answers by delete and insert
+    dbService.executeTransactionQuery(
+        "DELETE FROM Answer WHERE question_id = "+str(id))
+
+    for answer in question.answers:
+        dbService.executeTransactionQuery(
+            "INSERT INTO Answer (question_id, text, isCorrect) VALUES ("+str(id)+", \""+answer.text+"\", "+str(answer.correct)+");")
+
     dbService.close()
+
+
+def verifyPosition(position):
+    dbService = DBServices()
+    dbService.connection()
+
+    print("toto")
+    print("SELECT * FROM Question WHERE position = " + str(position))
+
+    result = dbService.executeSelectQuery(
+        "SELECT * FROM Question WHERE position = " + str(position))
+
+    dbService.close()
+    if(len(result) <= 0):
+        return False
+
+    return True

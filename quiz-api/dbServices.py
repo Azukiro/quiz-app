@@ -16,6 +16,7 @@ class DBServices:
         # (by default, all execute calls are performed in their own transactions, not what we want)
         db_connection.set_trace_callback(print)
         db_connection.isolation_level = None
+        db_connection.execute("PRAGMA foreign_keys = 1")
 
         cur = db_connection.cursor()
 
