@@ -47,13 +47,14 @@ def DeleteQuestion(position):
     return '', 204
 
 
-# @app.route('/questions/<position>', methods=['PUT'])
-# def PuteQuestion(position):
+@app.route('/questions/<position>', methods=['PUT'])
+def PuteQuestion(position):
 
-#     if(not verify_token(request.headers)):
-#         return "", 401
-#     put_question(position)
-#     return '', 204
+    if(not verify_token(request.headers)):
+        return "", 401
+    payload = request.get_json()
+    put_question(position, payload)
+    return '', 200
 
 
 @app.route('/questions', methods=['POST'])

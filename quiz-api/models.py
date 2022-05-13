@@ -22,10 +22,6 @@ class Question():
         print(json_object)
         question = Question(
             json_object['title'], json_object['text'], json_object['image'], json_object['position'])
-        question.title = json_object['title']
-        question.text = json_object['text']
-        question.image = json_object['image']
-        question.position = json_object['position']
         answers_list = []
         for obj in json_object["possibleAnswers"]:
             answers_list.append(Answer.deserialize(obj))
