@@ -1,11 +1,12 @@
 # Exemple de création de classe en python
 class Question():
-    def init(self, title: str, text: str, image: str, position: int, answers: list):
+    def __init__(self, title: str, text: str, image: str, position: int):
+        self.id = -1
         self.title = title
         self.text = text
         self.image = image
         self.position = position
-        self.answers = answers
+        self.answers = []
 
     def serialize(self):
         return {
@@ -19,7 +20,8 @@ class Question():
     @staticmethod
     def deserialize(json_object):
         print(json_object)
-        question = Question()
+        question = Question(
+            json_object['title'], json_object['text'], json_object['image'], json_object['position'])
         question.title = json_object['title']
         question.text = json_object['text']
         question.image = json_object['image']
@@ -33,7 +35,7 @@ class Question():
 
 
 class Answer():
-    def init(self, text: str, correct: bool):
+    def __init__(self, text: str, correct: bool):
         self.text = text
         self.correct = correct
 
@@ -46,8 +48,5 @@ class Answer():
     @staticmethod
     def deserialize(json_object):
 
-        answer = Answer()
-        answer.text = json_object['text']
-        answer.correct = json_object['isCorrect']
-
+        answer = Answer(json_object['text'], json_object['isCorrect'])
         return answer
