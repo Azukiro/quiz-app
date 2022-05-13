@@ -46,14 +46,11 @@ class DBServices:
         # start transaction
         self.cursor.execute("begin")
 
-        try:
-            # save the question to db
-            result = self.cursor.execute(query)
+        # save the question to db
+        result = self.cursor.execute(query)
 
-            # send the request
-            self.cursor.execute("commit")
-        except Exception:
-            self.cursor.execute("rollback")
+        # send the request
+        self.cursor.execute("commit")
 
         return result.fetchall()
 
@@ -64,8 +61,16 @@ class DBServices:
             "\", " + str(question.position) + ")"
         self.executeTransactionQuery(questionRequest)
 
+        result = self.executeSelectQuery(
+            "select seq from sqlite_sequence where name='Question'")
+        print(result)
+        if(len(result) != 1):
+            Exception("Mauvaise création de question")
+        print(result[0]["seq"])
+        question.id = result[0]["seq"]
+        print("toto")
         for answer in question.answers:
-            answerRequest = "INSERT INTO answer (text, isCorrect, question_fk) VALUES (\"" + \
+            answerRequest = "INSERT INTO answer (text, isCorrect, question_id) VALUES (\"" + \
                 answer.text + "\", " + str(answer.correct) + \
-                ", \"" + question.title + "\")"
+                ", " + str(question.id) + ")"
             self.executeTransactionQuery(answerRequest)
