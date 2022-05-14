@@ -1,3 +1,4 @@
+import sqlite3
 from flask import Flask, request
 from dbServices import DBServices
 from jwt_utils import build_token, decode_token
@@ -31,6 +32,8 @@ def PostAnswers():
     try:
         good_answers, position_answers, score, playerName = post_answers(
             request.get_json())
+    except sqlite3.IntegrityError as e:
+        return str(e), 409
     except Exception as e:
         return str(e), 500
 
@@ -82,7 +85,7 @@ def DeleteQuestion(position):
 
 
 @app.route('/questions/<position>', methods=['PUT'])
-def PuteQuestion(position):
+def PutQuestion(position):
 
     if(not verify_token(request.headers)):
         return '', 401
@@ -94,6 +97,8 @@ def PuteQuestion(position):
 
     try:
         put_question(position, payload)
+    except sqlite3.IntegrityError as e:
+        return str(e), 409
     except Exception as e:
         return str(e), 500
 
@@ -110,6 +115,8 @@ def PostQuestion():
 
     try:
         post_question(payload)
+    except sqlite3.IntegrityError as e:
+        return str(e), 409
     except Exception as e:
         return str(e), 500
 
