@@ -1,7 +1,7 @@
 from flask import Flask, request
 from dbServices import DBServices
 from jwt_utils import build_token, decode_token
-from requestServices import post_question, get_questions, get_question, delete_question, put_question, verifyPosition
+from requestServices import post_question, get_questions, get_question, delete_question, put_question, verifyPosition, post_answers, get_user_infos, post_answers
 
 app = Flask(__name__)
 
@@ -21,7 +21,27 @@ def verify_token(headers):
 @app.route('/quiz-info', methods=['GET'])
 def GetQuizInfo():
 
-    return {'size': 0, 'scores': []}, 200
+    nbQuestion, scores = get_user_infos()
+    return {'size': nbQuestion, 'scores': scores}, 200
+
+
+@app.route('/participations', methods=['POST'])
+def PostAnswers():
+
+    try:
+        good_answers, position_answers, score, playerName = post_answers(
+            request.get_json())
+    except Exception as e:
+        return str(e), 500
+
+    return {
+        'answersSummaries ': {
+            'correctAnswerPosition': position_answers,
+            'wasCorrect': good_answers
+        },
+        'playerName': playerName,
+        'score': score
+    }, 200
 
 
 @app.route('/questions', methods=['GET'])
