@@ -2,7 +2,7 @@ import sqlite3
 from flask import Flask, request
 from dbServices import DBServices
 from jwt_utils import build_token, decode_token
-from requestServices import post_question, get_questions, get_question, delete_question, put_question, verifyPosition, post_answers, get_user_infos, post_answers
+from requestServices import post_question, get_questions, get_question, delete_question, put_question, verifyPosition, post_answers, get_user_infos, post_answers, delete_participants
 
 app = Flask(__name__)
 
@@ -32,6 +32,8 @@ def PostAnswers():
     try:
         good_answers, position_answers, score, playerName = post_answers(
             request.get_json())
+    except IndexError as e:
+        return {'error': str(e)}, 400
     except sqlite3.IntegrityError as e:
         return str(e), 409
     except Exception as e:
@@ -45,6 +47,20 @@ def PostAnswers():
         'playerName': playerName,
         'score': score
     }, 200
+
+
+@app.route('/participations', methods=['DELETE'])
+def DeleteParticipants():
+
+    if(not verify_token(request.headers)):
+        return '', 401
+
+    try:
+        delete_participants()
+    except Exception as e:
+        return str(e), 500
+
+    return {}, 204
 
 
 @app.route('/questions', methods=['GET'])

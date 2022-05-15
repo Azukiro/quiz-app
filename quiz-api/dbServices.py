@@ -14,7 +14,7 @@ class DBServices:
             "./db-quizz.db", check_same_thread=False)
         # set the sqlite connection in "manual transaction mode"
         # (by default, all execute calls are performed in their own transactions, not what we want)
-        db_connection.set_trace_callback(print)
+        # db_connection.set_trace_callback(print)
         db_connection.isolation_level = None
         db_connection.execute("PRAGMA foreign_keys = 1")
 
@@ -64,12 +64,12 @@ class DBServices:
 
         result = self.executeSelectQuery(
             "select seq from sqlite_sequence where name='Question'")
-        print(result)
+
         if(len(result) != 1):
             Exception("Mauvaise création de question")
-        print(result[0]["seq"])
+
         question.id = result[0]["seq"]
-        print("toto")
+
         for answer in question.answers:
             answerRequest = "INSERT INTO answer (text, isCorrect, question_id) VALUES (\"" + \
                 answer.text + "\", " + str(answer.correct) + \

@@ -37,7 +37,7 @@ def get_questions():
         # questionList.append(Question.deserialize(obj))
 
     dbService.close()
-    print(result)
+
     return result
 
 
@@ -55,7 +55,6 @@ def get_question(position):
     answers = dbService.executeSelectQuery(
         "SELECT * FROM Answer WHERE Answer.question_id = "+str(question['id'])+";")
 
-    print(answers)
     question["possibleAnswers"] = answers
     for answer in question["possibleAnswers"]:
         answer["isCorrect"] = bool(answer["isCorrect"])
@@ -86,7 +85,7 @@ def put_question(position, json_obj):
 
     result = dbService.executeSelectQuery(
         "SELECT id FROM Question WHERE position = " + str(position))
-    print(len(result))
+
     if(len(result) != 1):
         Exception("No questions found")
 
@@ -96,7 +95,6 @@ def put_question(position, json_obj):
 
         sign = 1 if question.position > position else -1
 
-        print(str(sign))
         while(position != question.position):
 
             # dbService.executeTransactionQuery(
@@ -126,9 +124,6 @@ def verifyPosition(position):
     dbService = DBServices()
     dbService.connection()
 
-    print("toto")
-    print("SELECT * FROM Question WHERE position = " + str(position))
-
     result = dbService.executeSelectQuery(
         "SELECT * FROM Question WHERE position = " + str(position))
 
@@ -153,7 +148,7 @@ def get_user_infos():
 
     # get participants info
     result = dbService.executeSelectQuery(
-        "SELECT * FROM Participant;")
+        "SELECT * FROM Participant ORDER BY score DESC;")
 
     return nbQuestion, result
 
@@ -171,7 +166,10 @@ def post_answers(playload):
         "SELECT id FROM Question ORDER BY position;")
 
     if(len(result) <= 0):
-        Exception("No questions found")
+        raise Exception("No questions found")
+    elif(len(result) != len(answers)):
+        raise IndexError(
+            "Number of answers is not the same as number of questions")
 
     position_answers = []
     good_answers = []
@@ -202,3 +200,13 @@ def post_answers(playload):
         "INSERT INTO Participant (playerName, score, date) VALUES (\""+playerName+"\", "+str(score)+", \""+dt_string+"\");")
 
     return good_answers, position_answers, score, playerName
+
+
+def delete_participants():
+    dbService = DBServices()
+    dbService.connection()
+
+    dbService.executeTransactionQuery(
+        "DELETE FROM Participant;")
+
+    dbService.close()

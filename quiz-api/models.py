@@ -19,7 +19,6 @@ class Question():
 
     @staticmethod
     def deserialize(json_object):
-        print(json_object)
         question = Question(
             json_object['title'], json_object['text'], json_object['image'], json_object['position'])
         answers_list = []
