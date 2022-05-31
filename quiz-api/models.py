@@ -42,6 +42,6 @@ class Answer():
 
     @staticmethod
     def deserialize(json_object):
-
-        answer = Answer(json_object['text'], json_object['isCorrect'])
+        print("toto")
+        answer = Answer(json_object['text'], bool(json_object['isCorrect']))
         return answer

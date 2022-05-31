@@ -151,4 +151,4 @@ def Login():
 
 
 if __name__ == '__main__':
-    app.run()  # use_reloader = True, debug = True
+    app.run(use_reloader=True, debug=True)
