@@ -10,10 +10,11 @@
   <input type="number" v-model="currentQuestion.position" placeholder="Position" :max="totalQuestion" min="0" />
 
   <ImageUpload @file-change="imageFileChangedHandler" />
-
-  <div v-for="(answer, i) in currentQuestion.possibleAnswers" :key="i">
-    <input type="text" v-model="answer.text" placeholder="Answer" />
-    <input type="radio" v-model="answer.isCorrect" />
+  <div id="answer">
+    <div v-for="(answer, i) in currentQuestion.possibleAnswers" :key="i">
+      <input type="text" v-model="answer.text" placeholder="Answer" />
+      <input type="radio" :id="i" v-model="selectedAnswer" :value="i" />
+    </div>
   </div>
   <button @click="addAnswer">+</button>
   <button v-if="create" @click="addQuestion">Ajouter</button>
@@ -25,6 +26,7 @@
 <script>
 import ImageUpload from '@/components/ImageUpload.vue'
 import quizApiService from "@/services/QuizApiService";
+import adminStorageService from "@/services/AdminStorageService";
 export default {
 
   data() {
@@ -41,7 +43,8 @@ export default {
             isCorrect: false
           },
         ]
-      }
+      },
+      selectedAnswer: 0,
     }
   },
   props: {
@@ -51,6 +54,10 @@ export default {
     create: {
       type: Boolean,
       default: true
+    },
+    originalPosition: {
+      type: Number,
+      required: true,
     },
   },
   emits: ["question-update"],
@@ -90,7 +97,7 @@ export default {
         alert('Veuillez remplir tous les champs');
         return;
       }
-      let response = await quizApiService.postQuestion(this.currentQuestion);
+      let response = await quizApiService.postQuestion(this.currentQuestion, adminStorageService.getToken());
 
       this.$emit('question-update');
     },
@@ -99,7 +106,15 @@ export default {
         alert('Veuillez remplir tous les champs');
         return;
       }
-      quizApiService.putQuestion(this.currentQuestion);
+      //currentQuestion possibleAnswers slect good
+      for (let index = 0; index < this.currentQuestion.possibleAnswers.length; index++) {
+        if (this.selectedAnswer === index) {
+          this.currentQuestion.possibleAnswers[index].isCorrect = true;
+        } else {
+          this.currentQuestion.possibleAnswers[index].isCorrect = false;
+        }
+      }
+      quizApiService.putQuestion(this.originalPosition, this.currentQuestion, adminStorageService.getToken());
       this.$emit('question-update');
     },
   },
@@ -109,6 +124,7 @@ export default {
     this.totalQuestion = response.data.size;
     if (this.question) {
       this.currentQuestion = this.question;
+      this.selectedAnswer = this.question.possibleAnswers.findIndex(answer => answer.isCorrect);
     }
   }
 

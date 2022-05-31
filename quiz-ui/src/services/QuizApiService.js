@@ -33,6 +33,9 @@ export default {
   getQuestion(position) {
     return this.call("get", `questions/${position}`);
   },
+  getQuestions(token) {
+    return this.call("get", `questions`, null, token);
+  },
   postParticipation(participant) {
     return this.call("post", "participations", participant);
   },
@@ -42,8 +45,8 @@ export default {
   postQuestion(question, token) {
     return this.call("post", "questions", question, token);
   },
-  putQuestion(question, token) {
-    return this.call("put", "questions", question, token);
+  putQuestion(position, question, token) {
+    return this.call("put", `questions/${position}`, question, token);
   },
   deleteQuestion(id, token) {
     return this.call("delete", `questions/${id}`, null, token);

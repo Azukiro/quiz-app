@@ -1,28 +1,26 @@
 <script setup>
+import QuestionList from "./QuestionList.vue";
 
 </script>
 
 <template>
-  <header>
-    <h1> Admin </h1>
+  <h1> Admin </h1>
 
-    <div v-if="!adminMode" class="wrapper">
-      <input type="password" v-model="password" placeholder="mot de passe">
-      <button type="button" @click="checkPassword">Valider</button>
-      <p v-if="errorLogin"> Erreur d'identifiant </p>
-    </div>
-    <div v-if="adminMode" class="wrapper">
-      <QuestionEdition />
-      <button type="button" @click="logout">Logout</button>
-    </div>
-  </header>
+  <div v-if="!adminMode" class="wrapper">
+    <input type="password" v-model="password" placeholder="mot de passe">
+    <button type="button" class="" @click="checkPassword">Valider</button>
+    <p v-if="errorLogin"> Erreur d'identifiant </p>
+  </div>
+  <div v-if="adminMode" class="wrapper">
+    <QuestionList />
+    <button class="btn btn-primary" type="button" @click="logout">Logout</button>
+  </div>
 </template>
 
 
 <script>
 import quizApiService from "@/services/QuizApiService";
 import adminStorageService from "@/services/AdminStorageService";
-import QuestionEdition from '@/components/QuestionEdition.vue'
 export default {
   data() {
     return {
@@ -38,6 +36,7 @@ export default {
       if (response && response.status === 200) {
         this.errorLogin = false;
         this.adminMode = true;
+        console.log("titi")
         //save token
         adminStorageService.saveToken(response.data.token);
       } else {

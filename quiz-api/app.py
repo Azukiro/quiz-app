@@ -68,10 +68,10 @@ def DeleteParticipants():
 def GetQuestions():
 
     question_list = get_questions()
-    return str(question_list), 200
+    return {"questions": question_list, "size": len(question_list)}, 200
 
 
-@app.route('/questions/<position>', methods=['GET'])
+@ app.route('/questions/<position>', methods=['GET'])
 def GetQuestion(position):
     if not verifyPosition(position):
         return 'position not found', 404
@@ -84,7 +84,7 @@ def GetQuestion(position):
     return question, 200
 
 
-@app.route('/questions/<position>', methods=['DELETE'])
+@ app.route('/questions/<position>', methods=['DELETE'])
 def DeleteQuestion(position):
 
     if not verify_token(request.headers):
@@ -101,9 +101,8 @@ def DeleteQuestion(position):
     return '', 204
 
 
-@app.route('/questions/<position>', methods=['PUT'])
+@ app.route('/questions/<position>', methods=['PUT'])
 def PutQuestion(position):
-
     if not verify_token(request.headers):
         return '', 401
 
@@ -122,7 +121,7 @@ def PutQuestion(position):
     return '', 200
 
 
-@app.route('/questions', methods=['POST'])
+@ app.route('/questions', methods=['POST'])
 def PostQuestion():
 
     payload = request.get_json()
@@ -140,11 +139,11 @@ def PostQuestion():
     return '', 200
 
 
-@app.route('/login', methods=['POST'])
+@ app.route('/login', methods=['POST'])
 def Login():
     payload = request.get_json()
     password = payload['password']
-    if password == "Vive l'ESIEE !":
+    if password == "po":
         return {'token': build_token()}, 200
 
     return build_token(), 401

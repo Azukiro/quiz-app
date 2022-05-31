@@ -27,14 +27,15 @@ def get_questions():
     if(len(result) <= 0):
         Exception("No questions found")
 
-    questionList = []
     for obj in result:
         answers = dbService.executeSelectQuery(
             "SELECT * FROM Answer WHERE Answer.question_id = \""+str(obj['id'])+"\";")
 
         obj["possibleAnswers"] = answers
 
-        # questionList.append(Question.deserialize(obj))
+        for answer in obj["possibleAnswers"]:
+            answer["isCorrect"] = bool(answer["isCorrect"])
+    # questionList.append(Question.deserialize(obj))
 
     dbService.close()
 

@@ -1,8 +1,13 @@
 <template>
-  <QuestionAdminDisplay v-for="(question, index) in questions" :key="index" :question="question" :questions-size="size"
-    @question-update="UpdateQuestion" />
+  <div v-for="(question, index) in questions" :key="index">
+    <QuestionAdminDisplay :question="question" :questionsSize="size" @question-update="UpdateQuestion"
+      :originalPosition="question.position" />
+  </div>
+
   <QuestionEdition v-if="createQuestion" :create="true" @question-update="UpdateQuestion" />
   <button v-if="!createQuestion" @click="NewQuestion">Add question</button>
+
+
 </template>
 
 
@@ -29,6 +34,7 @@ export default {
       let response = await quizApiService.getQuestions(adminStorageService.getToken());
       this.questions = response.data.questions;
       this.size = response.data.size;
+      console.log(this.questions)
     },
     NewQuestion() {
       this.createQuestion = true;
