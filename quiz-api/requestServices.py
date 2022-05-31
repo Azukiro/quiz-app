@@ -23,7 +23,8 @@ def get_questions():
     dbService = DBServices()
     dbService.connection()
 
-    result = dbService.executeSelectQuery("SELECT * FROM Question;")
+    result = dbService.executeSelectQuery(
+        "SELECT * FROM Question ORDER BY position;")
     if(len(result) <= 0):
         Exception("No questions found")
 

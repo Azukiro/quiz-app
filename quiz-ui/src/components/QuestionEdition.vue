@@ -77,8 +77,8 @@ export default {
     },
 
     checkQuestion() {
-      if (this.currentQuestion.title && this.currentQuestion.text && this.currentQuestion.possibleAnswers.length > 1) {
-        //Check one answer true
+      if (this.currentQuestion.title && this.currentQuestion.text && this.currentQuestion.possibleAnswers.length > 0) {
+        console.log("eee")
         let oneAnswerTrue = false;
         this.currentQuestion.possibleAnswers.forEach(answer => {
           if (answer.isCorrect) {
@@ -90,15 +90,18 @@ export default {
         }
         return false;
       }
+      console.log(this.currentQuestion.possibleAnswers.length)
+      console.log("zzzz")
       return false;
     },
     async addQuestion() {
+      this.currentQuestion.possibleAnswers[this.selectedAnswer].isCorrect = true;
       if (!this.checkQuestion()) {
         alert('Veuillez remplir tous les champs');
         return;
       }
       let response = await quizApiService.postQuestion(this.currentQuestion, adminStorageService.getToken());
-
+      console.log(response)
       this.$emit('question-update');
     },
     async modifyQuestion() {

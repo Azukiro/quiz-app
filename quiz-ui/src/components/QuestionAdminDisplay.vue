@@ -8,7 +8,8 @@
 
 <script>
 import QuestionEdition from './QuestionEdition.vue';
-
+import quizApiService from '@/services/QuizApiService';
+import adminStorageService from '@/services/AdminStorageService';
 export default {
   props: {
     question: {
@@ -28,6 +29,7 @@ export default {
   emits: ["question-update"],
   methods: {
     DeleteQuestion() {
+      quizApiService.deleteQuestion(this.question.position, adminStorageService.getToken())
       this.$emit("question-update", this.question, true);
     }
   },
