@@ -1,19 +1,20 @@
 import sqlite3
 from flask import Flask, request
-from dbServices import DBServices
 from jwt_utils import build_token, decode_token
-from requestServices import post_question, get_questions, get_question, delete_question, put_question, verifyPosition, post_answers, get_user_infos, post_answers, delete_participants
+from requestServices import post_question, get_questions, get_question, delete_question, put_question, verifyPosition, get_user_infos, post_answers, delete_participants
+from flask_cors import CORS
 
 app = Flask(__name__)
+CORS(app)
 
 
 def verify_token(headers):
     auth = headers.get('Authorization')
-    if(auth is None):
+    if auth is None:
         return False
     token = auth.split()[1]
     login = decode_token(token)
-    if(login != 'quiz-app-admin'):
+    if login != 'quiz-app-admin':
         return False
 
     return True
@@ -22,15 +23,15 @@ def verify_token(headers):
 @app.route('/quiz-info', methods=['GET'])
 def GetQuizInfo():
 
-    nbQuestion, scores = get_user_infos()
-    return {'size': nbQuestion, 'scores': scores}, 200
+    nb_question, scores = get_user_infos()
+    return {'size': nb_question, 'scores': scores}, 200
 
 
 @app.route('/participations', methods=['POST'])
 def PostAnswers():
 
     try:
-        good_answers, position_answers, score, playerName = post_answers(
+        good_answers, position_answers, score, player_name = post_answers(
             request.get_json())
     except IndexError as e:
         return {'error': str(e)}, 400
@@ -44,7 +45,7 @@ def PostAnswers():
             'correctAnswerPosition': position_answers,
             'wasCorrect': good_answers
         },
-        'playerName': playerName,
+        'playerName': player_name,
         'score': score
     }, 200
 
@@ -52,7 +53,7 @@ def PostAnswers():
 @app.route('/participations', methods=['DELETE'])
 def DeleteParticipants():
 
-    if(not verify_token(request.headers)):
+    if not verify_token(request.headers):
         return '', 401
 
     try:
@@ -66,13 +67,13 @@ def DeleteParticipants():
 @app.route('/questions', methods=['GET'])
 def GetQuestions():
 
-    questionList = get_questions()
-    return str(questionList), 200
+    question_list = get_questions()
+    return str(question_list), 200
 
 
 @app.route('/questions/<position>', methods=['GET'])
 def GetQuestion(position):
-    if(not verifyPosition(position)):
+    if not verifyPosition(position):
         return 'position not found', 404
 
     try:
@@ -86,10 +87,10 @@ def GetQuestion(position):
 @app.route('/questions/<position>', methods=['DELETE'])
 def DeleteQuestion(position):
 
-    if(not verify_token(request.headers)):
+    if not verify_token(request.headers):
         return '', 401
 
-    if(not verifyPosition(position)):
+    if not verifyPosition(position):
         return 'Position not found', 404
 
     try:
@@ -103,10 +104,10 @@ def DeleteQuestion(position):
 @app.route('/questions/<position>', methods=['PUT'])
 def PutQuestion(position):
 
-    if(not verify_token(request.headers)):
+    if not verify_token(request.headers):
         return '', 401
 
-    if(not verifyPosition(position)):
+    if not verifyPosition(position):
         return 'position not found', 404
 
     payload = request.get_json()
@@ -126,7 +127,7 @@ def PostQuestion():
 
     payload = request.get_json()
 
-    if(not verify_token(request.headers)):
+    if not verify_token(request.headers):
         return '', 401
 
     try:
@@ -150,4 +151,4 @@ def Login():
 
 
 if __name__ == '__main__':
-    app.run(ssl_context='adhoc', use_reloader=True, debug=True)
+    app.run()  # use_reloader = True, debug = True
