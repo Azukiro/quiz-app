@@ -5,12 +5,12 @@
   <h2>Tes voisins de scores</h2>
 
   <div v-if="playersBefore">...</div>
-  <div v-for="scoreEntry in  getFivePlayerNearPlayer()" v-bind:key="scoreEntry.date">
+  <div v-for="scoreEntry in  getFivePlayerNearPlayer()" :key="scoreEntry.date">
     {{ scoreEntry.playerName }} - {{ scoreEntry.score }}
   </div>
   <div v-if="playersAfter">...</div>
   <h2>Les 5 meilleurs</h2>
-  <div v-for="scoreEntry in  getFiveBest()" v-bind:key="scoreEntry.date">
+  <div v-for="scoreEntry in  getFiveBest()" :key="scoreEntry.date">
     {{ scoreEntry.playerName }} - {{ scoreEntry.score }}
   </div>
   <router-link to="/">Retour à la home</router-link>
@@ -33,15 +33,17 @@ export default {
     };
   },
   async created() {
-    console.log("Composant Home page 'created'");
+
     let response = await quizApiService.getQuizInfo();
-    this.registeredScores = response.data.scores;
     participationStorageService.saveTotalQuestions(response.data.size);
+
+    this.registeredScores = response.data.scores;
     this.score = participationStorageService.getParticipationScore();
     this.playerName = participationStorageService.getPlayerName();
     this.totalNumberOfQuestion = participationStorageService.getTotalQuestions();
   },
   methods: {
+
     getFiveBest() {
       let scores = this.registeredScores;
       scores.sort(function (a, b) {
@@ -57,7 +59,8 @@ export default {
       });
       let playerPosition = scores.findIndex(score => score.playerName === this.playerName);
       let fiveBest = scores.slice(playerPosition - 2, playerPosition + 3);
-      console.log(playerPosition - 2)
+
+
       if (playerPosition - 2 > 1) {
         this.playersBefore = true;
       }

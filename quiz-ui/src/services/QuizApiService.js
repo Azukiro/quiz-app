@@ -36,4 +36,16 @@ export default {
   postParticipation(participant) {
     return this.call("post", "participations", participant);
   },
+  login(credentials) {
+    return this.call("post", "login", credentials);
+  },
+  postQuestion(question, token) {
+    return this.call("post", "questions", question, token);
+  },
+  putQuestion(question, token) {
+    return this.call("put", "questions", question, token);
+  },
+  deleteQuestion(id, token) {
+    return this.call("delete", `questions/${id}`, null, token);
+  },
 };

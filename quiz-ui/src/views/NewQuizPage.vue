@@ -4,7 +4,7 @@
     <form>
       <p>Saisissez votre nom</p>
       <input type="text" v-model="username" placeholder="UserName">
-      <p>{{ username }}</p> 
+      <p>{{ username }}</p>
       <button type="button" @click="launchNewQuiz">Start Quiz</button>
     </form>
   </div>
@@ -22,19 +22,23 @@
 
 <script>
 import participationStorageService from "@/services/ParticipationStorageService";
+
 export default {
   name: "NewQuizPage",
+
   data() {
     return {
-      username :'',
+      username: '',
     };
   },
-  methods:{
-    launchNewQuiz(){
+  methods: {
+
+    launchNewQuiz() {
       console.log("Launch new quiz with", this.username);
       participationStorageService.savePlayerName(this.username);
       this.$router.push('/questions');
     },
-  } 
+
+  }
 };
 </script>

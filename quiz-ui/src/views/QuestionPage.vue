@@ -21,8 +21,11 @@ export default {
   components: {
     QuestionManager
   },
+
   created() {
+
     participationStorageService.saveParticipationScore(0);
+
   }
 }
 </script>
