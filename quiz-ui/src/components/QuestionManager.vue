@@ -13,6 +13,7 @@ export default {
       currentQuestionPosition: 1,
       totalNumberOfQuestion: 0,
       currentQuestion: {},
+      selectedAnswer: [],
     }
   },
   components: {
@@ -23,23 +24,27 @@ export default {
       let response = await quizApiService.getQuestion(this.currentQuestionPosition);
       this.currentQuestion = response.data;
     },
+
     async answerClickedHandler(index) {
       console.log("Composant QuestionDisplay 'answerClickedHandler'");
-      if (this.currentQuestion.possibleAnswers[index].isCorrect) {
-        participationStorageService.incrementParticipationScore();
-      }
-
-      this.currentQuestionPosition++;
-
-      if (this.currentQuestionPosition > this.totalNumberOfQuestion) {
+      this.selectedAnswer.push(index);
+      if (this.currentQuestionPosition >= this.totalNumberOfQuestion) {
         this.endQuiz();
       } else {
+        this.currentQuestionPosition++;
         this.loadQuestionByPosition();
       }
     },
 
     async endQuiz() {
       console.log("Composant QuestionDisplay 'endQuiz'");
+      let participant = {
+        playerName: participationStorageService.getPlayerName(),
+        answers: this.selectedAnswer,
+      }
+      let response = await quizApiService.postParticipation(participant);
+      participationStorageService.saveParticipationScore(response.data.score);
+      this.$router.push('/result');
     },
   },
 

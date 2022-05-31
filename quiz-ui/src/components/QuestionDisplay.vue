@@ -1,11 +1,12 @@
 <template>
-<p>{{question.title}}</p>
-<p>{{question.text}}</p>
+  <p>{{ question.title }}</p>
+  <p>{{ question.text }}</p>
   <img v-if="question.image" :src="question.image" />
-  <div v-for="(answerEntry,index) in question.possibleAnswers" v-bind:key="answerEntry.text">
-    <a @click="$emit('answer-selected', index)">
-    {{ scoreEntry.text }}</a>
-</div>
+  <div v-for="(answerEntry, index) in question.possibleAnswers" v-bind:key="answerEntry.text">
+    <a @click="$emit('answer-selected', index + 1)">
+
+      {{ answerEntry.text }}</a>
+  </div>
 </template>
 
 <script>
@@ -16,5 +17,5 @@ export default {
     }
   },
   emits: ["answer-selected"],
-  }
+}
 </script>

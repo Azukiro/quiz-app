@@ -11,3 +11,18 @@ import QuestionManager from '@/components/QuestionManager.vue'
     </div>
   </header>
 </template>
+
+
+<script>
+
+import participationStorageService from '@/services/ParticipationStorageService';
+export default {
+
+  components: {
+    QuestionManager
+  },
+  created() {
+    participationStorageService.saveParticipationScore(0);
+  }
+}
+</script>

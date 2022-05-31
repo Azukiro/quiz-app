@@ -14,11 +14,6 @@ export default {
   getParticipationScore() {
     return window.localStorage.getItem("participationScore");
   },
-  incrementParticipationScore() {
-    let participationScore = this.getParticipationScore();
-    participationScore++;
-    this.saveParticipationScore(participationScore);
-  },
 
   saveTotalQuestions(total) {
     window.localStorage.setItem("totalQuestions", total);
