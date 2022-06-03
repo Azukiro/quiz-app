@@ -8,12 +8,13 @@ import QuestionList from "./QuestionList.vue";
 
   <div v-if="!adminMode" class="wrapper">
     <input type="password" v-model="password" placeholder="mot de passe">
-    <button type="button" class="" @click="checkPassword">Valider</button>
+    <button class="btn btn-primary" type="button" @click="checkPassword">Valider</button>
     <p v-if="errorLogin"> Erreur d'identifiant </p>
   </div>
   <div v-if="adminMode" class="wrapper">
     <QuestionList />
-    <button class="btn btn-primary" type="button" @click="logout">Logout</button>
+    <br>
+    <button class="btn btn-primary mt-3" type="button" @click="logout">Logout</button>
   </div>
 </template>
 

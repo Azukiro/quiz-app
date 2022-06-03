@@ -1,6 +1,6 @@
 <template>
   <input tabindex="-1" type="file" name="uploadInput" :disabled="isSaving" @change="fileChange"
-    accept="image/jpeg, image/png, image/gif" class="input-file" ref="fileInput" />
+    accept="image/jpeg, image/png, image/gif" class="input-file form-control" ref="fileInput" />
   <a class="image-upload-remove-link" href="#" v-if="file" @click="clickRemoveImageHandler">
     Supprimer l'image
   </a>

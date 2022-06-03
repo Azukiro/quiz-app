@@ -1,23 +1,18 @@
 <template>
-  <div class="new-quiz">
-    <h1>This is an new quiz page</h1>
+  <div class="container-sm text-center w-25 mt-5 mb-5">
+    <h1 class="text-uppercase display-4">
+      Démarrage du quiz
+    </h1>
     <form>
       <p>Saisissez votre nom</p>
       <input type="text" v-model="username" placeholder="UserName">
       <p>{{ username }}</p>
-      <button type="button" @click="launchNewQuiz">Start Quiz</button>
+      <button class="btn btn-primary btn-lg" type="button" @click="launchNewQuiz">Start Quiz</button>
     </form>
   </div>
 </template>
 
 <style>
-@media (min-width: 1024px) {
-  .new-quiz {
-    min-height: 100vh;
-    display: flex;
-    align-items: center;
-  }
-}
 </style>
 
 <script>

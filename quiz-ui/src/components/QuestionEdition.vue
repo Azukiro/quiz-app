@@ -1,24 +1,64 @@
 
 <template>
 
-  <input type="text" v-model="currentQuestion.title" placeholder="Title" />
-
-  <input type="text" v-model="currentQuestion.text" placeholder="Texte" />
-
-  <img v-if="currentQuestion.image" :src="currentQuestion.image" alt="" style="width: 100px;" />
-
-  <input type="number" v-model="currentQuestion.position" placeholder="Position" :max="totalQuestion" min="0" />
-
-  <ImageUpload @file-change="imageFileChangedHandler" />
-  <div id="answer">
-    <div v-for="(answer, i) in currentQuestion.possibleAnswers" :key="i">
-      <input type="text" v-model="answer.text" placeholder="Answer" />
-      <input type="radio" :id="i" v-model="selectedAnswer" :value="i" />
+  <form>
+    <div class="mx-auto mt-3" style="width: 60%;">
+      <label>Titre</label>
+      <input type="text" class="form-control" v-model="currentQuestion.title" placeholder="Titre">
     </div>
-  </div>
-  <button @click="addAnswer">+</button>
-  <button v-if="create" @click="addQuestion">Ajouter</button>
-  <button v-if="!create" @click="modifyQuestion">Modifier</button>
+
+    <div class="mx-auto mt-3" style="width: 60%;">
+      <label>Texte</label>
+      <input type="text" class="form-control" v-model="currentQuestion.text" placeholder="Texte" />
+    </div>
+
+    <div class="mx-auto mt-3" style="width: 60%;">
+      <label>Image</label>
+      <div class="container  mb-3" style="width: 30%;">
+        <img v-if="currentQuestion.image" :src="currentQuestion.image" alt="" class="img-thumbnail" />
+      </div>
+      <ImageUpload @file-change="imageFileChangedHandler" />
+    </div>
+
+    <div class="mx-auto mt-3" style="width: 60%;">
+      <label>Réponses</label>
+
+
+      <div class="rounded border border-light mx-auto">
+        <table class="table table-striped table-dark table-bordered table-hover">
+          <thead>
+            <tr>
+              <th scope="col">Réponse</th>
+              <th scope="col">Valide</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr v-for="(answer, i) in currentQuestion.possibleAnswers" :key="i">
+              <th scope="row">
+                <input type="text" v-model="answer.text" placeholder="Answer" style="width: 100%;" />
+              </th>
+              <td>
+                <input type="radio" :id="i" v-model="selectedAnswer" :value="i" />
+              </td>
+            </tr>
+            <tr>
+              <th scope="row">
+                <button type="button" class="btn btn-primary" @click="addAnswer" style="width: 100%;">Ajouter une
+                  réponse</button>
+              </th>
+              <td>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <button type="button" class="btn btn-primary" v-if="create" @click="addQuestion">Ajouter</button>
+    <button type="button" class="btn btn-primary" v-if="!create" @click="modifyQuestion">Modifier</button>
+  </form>
+
+
 
 </template>
 

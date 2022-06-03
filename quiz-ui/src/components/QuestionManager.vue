@@ -1,7 +1,20 @@
 <template>
   <h1>Question {{ currentQuestionPosition }} / {{ totalNumberOfQuestion }}</h1>
+
+
+  <div class="progress">
+    <div class="progress-bar progress-bar-striped progress-bar-animated" role="progressbar"
+      :style="{ width: completePercentage + '%' }">
+      <span class="sr-only">{{ completePercentage }}% Complete</span>
+    </div>
+  </div>
+
+
+
+
   <QuestionDisplay :question="currentQuestion" @answer-selected="answerClickedHandler" />
 </template>
+
 
 <script>
 import QuestionDisplay from './QuestionDisplay.vue'
@@ -12,6 +25,7 @@ export default {
     return {
       currentQuestionPosition: 1,
       totalNumberOfQuestion: 0,
+      completePercentage: 0,
       currentQuestion: {},
       selectedAnswer: [],
     }
@@ -21,6 +35,8 @@ export default {
   },
   methods: {
     async loadQuestionByPosition() {
+      this.completePercentage = ((this.currentQuestionPosition - 1) / this.totalNumberOfQuestion) * 100;
+      console.log("completePercentage", this.completePercentage);
       let response = await quizApiService.getQuestion(this.currentQuestionPosition);
       this.currentQuestion = response.data;
     },

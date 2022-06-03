@@ -1,7 +1,7 @@
 <template>
   <QuestionEdition @question-update="$emit('question-update')" :create="false" :question="question"
     :originalPosition="originalPosition" />
-  <button @click="DeleteQuestion">Delete</button>
+  <button class="btn btn-danger" @click="DeleteQuestion">Supprimer la question</button>
   <br />
 </template>
 

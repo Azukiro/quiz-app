@@ -3,9 +3,11 @@ import Admin from '@/components/Admin.vue'
 </script>
 
 <template>
-  <h1> Bienvenue Admin </h1>
+  <div class="container text-center">
+    <h1> Bienvenue Admin </h1>
 
-  <div class="wrapper">
-    <Admin />
+    <div class="wrapper">
+      <Admin />
+    </div>
   </div>
 </template>

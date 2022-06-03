@@ -1,19 +1,64 @@
 <template>
-  <h1>Résultat</h1>
-  <p>Félicitation {{ playerName }}</p>
-  <p>Vous avez obtenu {{ score }} / {{ totalNumberOfQuestion }}</p>
-  <h2>Tes voisins de scores</h2>
+  <div class="container text-center mt-5">
+    <h1>Résultat</h1>
+    <p>Félicitation {{ playerName }}</p>
+    <p>Vous avez obtenu {{ score }} / {{ totalNumberOfQuestion }}</p>
+    <div class="container">
+      <div class="row">
+        <div class="col-sm">
+          <h2>Tes voisins de scores</h2>
 
-  <div v-if="playersBefore">...</div>
-  <div v-for="scoreEntry in  getFivePlayerNearPlayer()" :key="scoreEntry.date">
-    {{ scoreEntry.playerName }} - {{ scoreEntry.score }}
+          <div class="rounded border border-light mt-5 mb-5">
+            <table class="table table-striped table-dark table-bordered table-hover">
+              <thead>
+                <tr>
+                  <th scope="col">Pseudo</th>
+                  <th scope="col">Score</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr v-if="playersBefore">
+                  <td>...</td>
+                  <td>...</td>
+                </tr>
+                <tr v-for="(scoreEntry, index) in getFivePlayerNearPlayer()" :key="scoreEntry.date">
+                  <td>{{ scoreEntry.playerName }}</td>
+                  <td>{{ scoreEntry.score }}</td>
+                </tr>
+                <tr v-if="playersAfter">
+                  <td>...</td>
+                  <td>...</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+        <div class="col-sm">
+          <h2>Les 5 meilleurs</h2>
+          <div class="rounded border border-light mt-5 mb-5">
+            <table class="table table-striped table-dark table-bordered table-hover">
+              <thead>
+                <tr>
+                  <th scope="col">#</th>
+                  <th scope="col">Pseudo</th>
+                  <th scope="col">Score</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr v-for="(scoreEntry, index) in getFiveBest()" :key="scoreEntry.date">
+                  <th scope="row">{{ index + 1 }}</th>
+                  <td>{{ scoreEntry.playerName }}</td>
+                  <td>{{ scoreEntry.score }}</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+    <button class="btn btn-primary btn-lg" type="button" @click="$router.push('/')">Retour à la home</button>
   </div>
-  <div v-if="playersAfter">...</div>
-  <h2>Les 5 meilleurs</h2>
-  <div v-for="scoreEntry in  getFiveBest()" :key="scoreEntry.date">
-    {{ scoreEntry.playerName }} - {{ scoreEntry.score }}
-  </div>
-  <router-link to="/">Retour à la home</router-link>
 </template>
 
 <script>
