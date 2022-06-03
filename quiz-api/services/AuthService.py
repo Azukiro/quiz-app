@@ -1,5 +1,5 @@
 from helpers import jwt_utils as jwt
-PASSWORD = "po"
+PASSWORD = "Steve"
 
 
 def verify_token(headers):
