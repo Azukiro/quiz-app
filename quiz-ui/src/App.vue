@@ -8,7 +8,7 @@ import { RouterLink, RouterView } from 'vue-router'
     <div class="wrapper">
       <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
 
-        <RouterLink class="navbar-brand" to="/">
+        <RouterLink class="navbar-brand ms-3" to="/">
           <img src="/src/components/icons/icon.png" height="75" alt="Icon">
         </RouterLink>
         <ul class="navbar-nav">

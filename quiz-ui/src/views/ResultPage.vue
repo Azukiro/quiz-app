@@ -103,8 +103,12 @@ export default {
         return b.score - a.score;
       });
       let playerPosition = scores.findIndex(score => score.playerName === this.playerName);
-      let fiveBest = scores.slice(playerPosition - 2, playerPosition + 3);
+      let maxIndex = Math.max(0, playerPosition - 2);
 
+      let fiveBest = scores.slice(maxIndex, playerPosition + 3);
+      console.log(playerPosition);
+      console.log(scores);
+      console.log(fiveBest);
 
       if (playerPosition - 2 > 1) {
         this.playersBefore = true;

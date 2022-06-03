@@ -3,9 +3,8 @@
 
 
   <div class="progress">
-    <div class="progress-bar progress-bar-striped progress-bar-animated" role="progressbar"
+    <div class="progress-bar progress-bar-striped progress-bar-animated bg-success" role="progressbar"
       :style="{ width: completePercentage + '%' }">
-      <span class="sr-only">{{ completePercentage }}% Complete</span>
     </div>
   </div>
 

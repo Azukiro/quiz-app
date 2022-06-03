@@ -4,17 +4,20 @@ import QuestionList from "./QuestionList.vue";
 </script>
 
 <template>
-  <h1> Admin </h1>
+  <div class="container-sm text-center w-25 mt-5">
+    <h2> Connexion </h2>
 
-  <div v-if="!adminMode" class="wrapper">
-    <input type="password" v-model="password" placeholder="mot de passe">
-    <button class="btn btn-primary" type="button" @click="checkPassword">Valider</button>
-    <p v-if="errorLogin"> Erreur d'identifiant </p>
-  </div>
-  <div v-if="adminMode" class="wrapper">
-    <QuestionList />
-    <br>
-    <button class="btn btn-primary mt-3" type="button" @click="logout">Logout</button>
+    <div v-if="!adminMode" class="wrapper">
+      <input type="password" v-model="password" placeholder="mot de passe">
+      <br>
+      <button class="btn btn-success mt-3" type="button" @click="checkPassword">Connexion</button>
+      <p v-if="errorLogin"> Erreur d'identifiant </p>
+    </div>
+    <div v-if="adminMode" class="wrapper">
+      <QuestionList />
+      <br>
+      <button class="btn btn-primary mt-3" type="button" @click="logout">Logout</button>
+    </div>
   </div>
 </template>
 

@@ -1,5 +1,5 @@
 <template>
-  <p>{{ question.title }}</p>
+  <p class="mt-5">{{ question.title }}</p>
   <p>{{ question.text }}</p>
   <img class="img-thumbnail" v-if="question.image" :src="question.image" />
 

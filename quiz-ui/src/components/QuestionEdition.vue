@@ -1,6 +1,5 @@
 
 <template>
-
   <form>
     <div class="mx-auto mt-3" style="width: 60%;">
       <label>Titre</label>
@@ -11,6 +10,14 @@
       <label>Texte</label>
       <input type="text" class="form-control" v-model="currentQuestion.text" placeholder="Texte" />
     </div>
+
+    <div class="mx-auto mt-3" style="width: 60%;">
+      <label>Position</label>
+      <input type="number" class="form-control" v-model="currentQuestion.position" placeholder="Position"
+        :max="totalQuestion + 1" min="1" />
+    </div>
+
+
 
     <div class="mx-auto mt-3" style="width: 60%;">
       <label>Image</label>
