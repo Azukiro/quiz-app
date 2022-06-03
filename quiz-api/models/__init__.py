@@ -1,4 +1,3 @@
-# Exemple de création de classe en python
 class Question():
     def __init__(self, title: str, text: str, image: str, position: int):
         self.id = -1
@@ -42,6 +41,5 @@ class Answer():
 
     @staticmethod
     def deserialize(json_object):
-        print("toto")
         answer = Answer(json_object['text'], bool(json_object['isCorrect']))
         return answer
