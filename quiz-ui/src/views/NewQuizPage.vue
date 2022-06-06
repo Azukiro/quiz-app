@@ -1,13 +1,13 @@
 <template>
   <div class="container-sm text-center w-25 mt-5 mb-5">
     <h1 class="text-uppercase display-4">
-      Démarrage du quiz
+      Démarrage du DeweyQuiz
     </h1>
     <form>
       <p>Saisissez votre nom</p>
       <input type="text" v-model="username" placeholder="UserName">
-      <p>{{ username }}</p>
-      <button class="btn btn-primary btn-lg" type="button" @click="launchNewQuiz">Start Quiz</button>
+      <br>
+      <button class="btn btn-primary btn-lg mt-3" type="button" @click="launchNewQuiz">Start Quiz</button>
     </form>
   </div>
 </template>

@@ -6,7 +6,7 @@
         <button class="accordion-button bg-dark text-center border" :class="{ 'collapsed': index !== 0 }" type="button"
           data-bs-toggle="collapse" :data-bs-target="'#collapse' + question.position" aria-expanded="true"
           :aria-controls="'collapse' + item" style="color: rgb(226, 226, 226);">
-          Accordion Item {{ question.position }}
+          {{ question.text }}
         </button>
       </h2>
       <div :id="'collapse' + question.position" class="accordion-collapse collapse" :class="{ 'show': index === 0 }"

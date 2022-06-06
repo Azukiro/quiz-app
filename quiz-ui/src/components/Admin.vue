@@ -4,7 +4,7 @@ import QuestionList from "./QuestionList.vue";
 </script>
 
 <template>
-  <div class="container-sm text-center w-25 mt-5">
+  <div class="container-sm text-center mt-5">
     <h2> Connexion </h2>
 
     <div v-if="!adminMode" class="wrapper">
